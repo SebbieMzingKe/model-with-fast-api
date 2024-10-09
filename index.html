@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plant Disease Recognition</title>
+</head>
+<body>
+    <h1>Upload Plant Image for Disease Prediction</h1>
+    <input type="file" id="ImageInput" accept="image/*">
+    <button onclick="uploadImage()">Predict</button>
+    <p id="predictionResult"></p>
+    <script type="text/javascript">
+        async function uploadImage() {
+            const input = document.getElementById("ImageInput")
+            console.log(input)
+            // const file = input.files[0];
+            if (!input.files[0]){
+                alert("Please select a file")
+                return;
+            }
+            const file = input.files[0]
+            console.log(file)
+            const formData = new FormData()
+            formData.append("file", file)
+
+            try{
+                const response = await fetch("http://127.0.0.1:8000/predict-image", {
+                method: "POST",
+                body: formData
+            })
+            const result = await response.json()
+            console.log("result",result)
+            document.getElementById("predictionResult").textContent = `Prediction: ${result['Prediction']}`
+
+            } catch(error){
+            console.error("Error:", error)
+            // alert("Failed!")
+        }
+
+    }
+    </script>
+</body>
+</html>
