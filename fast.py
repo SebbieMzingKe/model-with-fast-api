@@ -1,5 +1,4 @@
 import io
-import pickle
 import tensorflow as tf
 
 import numpy as np
